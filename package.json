@@ -1,0 +1,25 @@
+{
+  "name": "remark-csv-table",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "mdast-util-directive": "3.1.0",
+    "remark-directive": "4.0.0",
+    "remark-gfm": "4.0.1",
+    "remark-parse": "11.0.0",
+    "remark-stringify": "11.0.0",
+    "to-vfile": "8.0.0",
+    "typescript": "^7",
+    "unified": "11.0.5"
+  },
+  "peerDependencies": {
+    "remark-directive": "^4.0.0",
+    "remark-gfm": "^4.0.0"
+  },
+  "dependencies": {
+    "csv-parse": "7.0.2",
+    "remark": "15.0.1",
+    "unist-util-visit": "5.1.0"
+  }
+}
