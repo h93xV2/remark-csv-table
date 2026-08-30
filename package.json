@@ -1,7 +1,14 @@
 {
   "name": "remark-csv-table",
-  "module": "index.ts",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/h93xV2/remark-csv-table",
+    "type": "git"
+  },
+  "author": "h93xV2",
+  "module": "src/index.ts",
   "type": "module",
+  "version": "0.1.0",
   "devDependencies": {
     "@types/bun": "latest",
     "mdast-util-directive": "3.1.0",
