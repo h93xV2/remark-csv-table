@@ -1,32 +1,61 @@
 {
-  "name": "remark-csv-table",
-  "license": "MIT",
-  "repository": {
-    "url": "https://github.com/h93xV2/remark-csv-table",
-    "type": "git"
-  },
-  "author": "h93xV2",
-  "module": "src/index.ts",
-  "type": "module",
-  "version": "0.1.0",
-  "devDependencies": {
-    "@types/bun": "latest",
-    "mdast-util-directive": "3.1.0",
-    "remark-directive": "4.0.0",
-    "remark-gfm": "4.0.1",
-    "remark-parse": "11.0.0",
-    "remark-stringify": "11.0.0",
-    "to-vfile": "8.0.0",
-    "typescript": "^7",
-    "unified": "11.0.5"
-  },
-  "peerDependencies": {
-    "remark-directive": "^4.0.0",
-    "remark-gfm": "^4.0.0"
-  },
-  "dependencies": {
-    "csv-parse": "7.0.2",
-    "remark": "15.0.1",
-    "unist-util-visit": "5.1.0"
-  }
+    "name": "remark-csv-table",
+    "license": "MIT",
+    "repository": {
+        "url": "https://github.com/h93xV2/remark-csv-table",
+        "type": "git"
+    },
+    "author": "h93xV2",
+    "module": "src/index.ts",
+    "type": "module",
+    "version": "0.1.0",
+    "release": {
+        "branches": [
+            "master"
+        ],
+        "plugins": [
+            "@semantic-release/commit-analyzer",
+            "@semantic-release/release-notes-generator",
+            "@semantic-release/github"
+        ]
+    },
+    "scripts": {
+        "build": "tsc -p tsconfig.json",
+        "prepare": "husky",
+        "typecheck": "tsc --noEmit",
+        "format": "prettier --write .",
+        "format:check": "prettier --check ."
+    },
+    "lint-staged": {
+        "*.{js,cjs,mjs,ts,tsx,json,yaml,yml,md}": "prettier --write"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "21.2.2",
+        "@commitlint/config-conventional": "21.2.2",
+        "@semantic-release/commit-analyzer": "13.0.1",
+        "@semantic-release/github": "12.0.9",
+        "@semantic-release/release-notes-generator": "14.1.1",
+        "@types/bun": "latest",
+        "husky": "9.1.7",
+        "lint-staged": "17.4.1",
+        "mdast-util-directive": "3.1.0",
+        "prettier": "3.9.6",
+        "remark-directive": "4.0.0",
+        "remark-gfm": "4.0.1",
+        "remark-parse": "11.0.0",
+        "remark-stringify": "11.0.0",
+        "semantic-release": "25.0.9",
+        "to-vfile": "8.0.0",
+        "typescript": "^7",
+        "unified": "11.0.5"
+    },
+    "peerDependencies": {
+        "remark-directive": "^4.0.0",
+        "remark-gfm": "^4.0.0"
+    },
+    "dependencies": {
+        "csv-parse": "7.0.2",
+        "remark": "15.0.1",
+        "unist-util-visit": "5.1.0"
+    }
 }

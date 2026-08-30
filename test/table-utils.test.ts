@@ -4,9 +4,9 @@ import { toCell, toTable } from "../src/table-utils";
 mock.module("remark", () => ({
     remark: () => ({
         parse: (value: string) => ({
-            children: [{}]
-        })
-    })
+            children: [{}],
+        }),
+    }),
 }));
 
 // TODO: Mock the output of remark().parse(value)
@@ -17,9 +17,9 @@ it("should create a cell from a string", () => {
         children: [
             {
                 type: "text",
-                value: "Test cell"
-            }
-        ]
+                value: "Test cell",
+            },
+        ],
     });
 });
 
@@ -39,27 +39,27 @@ it("should create a table from CSV rows", () => {
                 children: [
                     {
                         type: "tableCell",
-                        children: [{ type: "text", value: "Header 1" }]
+                        children: [{ type: "text", value: "Header 1" }],
                     },
                     {
                         type: "tableCell",
-                        children: [{ type: "text", value: "Header 2" }]
-                    }
-                ]
+                        children: [{ type: "text", value: "Header 2" }],
+                    },
+                ],
             },
             {
                 type: "tableRow",
                 children: [
                     {
                         type: "tableCell",
-                        children: [{ type: "text", value: "Row 1 Col 1" }]
+                        children: [{ type: "text", value: "Row 1 Col 1" }],
                     },
                     {
                         type: "tableCell",
-                        children: [{ type: "text", value: "Row 1 Col 2" }]
-                    }
-                ]
-            }
-        ]
+                        children: [{ type: "text", value: "Row 1 Col 2" }],
+                    },
+                ],
+            },
+        ],
     });
 });

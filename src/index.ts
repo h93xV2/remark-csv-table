@@ -9,14 +9,12 @@ import { getCsvPath } from "./get-csv-path";
 import { parseRows } from "./parse-rows";
 
 type RemarkCsvTablesOptions = {
-  contentDirectory: string;
+    contentDirectory: string;
 };
 
-const remarkCsvTables: Plugin<[RemarkCsvTablesOptions?], Root> = (
-  options,
-) => {
+const remarkCsvTables: Plugin<[RemarkCsvTablesOptions?], Root> = (options) => {
     const contentDirectory = path.resolve(
-       options?.contentDirectory || process.cwd(),
+        options?.contentDirectory || process.cwd(),
     );
 
     return (tree: Root, file: VFile) => {
@@ -35,7 +33,7 @@ const remarkCsvTables: Plugin<[RemarkCsvTablesOptions?], Root> = (
 
             const csvPath = getCsvPath(node, file, contentDirectory);
             file.info(`[remark-csv-tables] Reading ${csvPath}.`);
-            
+
             const rows = parseRows(csvPath);
 
             parent.children[index] = toTable(rows);

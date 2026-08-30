@@ -9,8 +9,8 @@ import remarkGfm from "remark-gfm";
 
 describe("remark-csv-tables integration tests", () => {
     test("parses markdown with no directives", async () => {
-        const input = "# Hello World"
-        const expected = "# Hello World\n"
+        const input = "# Hello World";
+        const expected = "# Hello World\n";
 
         const result = await unified()
             .use(remarkParse)
@@ -22,8 +22,9 @@ describe("remark-csv-tables integration tests", () => {
     });
 
     test("parses markdown with CSV directive", async () => {
-        const file = await read('test/data/test.md');
-        const expected = "# Hello World\n\n| name | age |\n| ---- | --- |\n| John | 25  |\n| Jane | 30  |\n"
+        const file = await read("test/data/test.md");
+        const expected =
+            "# Hello World\n\n| name | age |\n| ---- | --- |\n| John | 25  |\n| Jane | 30  |\n";
 
         const result = await unified()
             .use(remarkParse)
