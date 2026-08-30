@@ -38,7 +38,7 @@ jobs:
               run: bunx commitlint --last --verbose
 
             - name: Test
-              run: bun test
+              run: bun test --isolate
 
             - name: Release
               env:
