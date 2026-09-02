@@ -1,9 +1,9 @@
-import { it, expect, mock } from "bun:test";
+import { expect, it, mock } from "bun:test";
 import { toCell, toTable } from "../src/table-utils";
 
 mock.module("remark", () => ({
     remark: () => ({
-        parse: (value: string) => ({
+        parse: (_value: string) => ({
             children: [{}],
         }),
     }),

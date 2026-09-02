@@ -1,12 +1,12 @@
 import path from "node:path";
-import type { LeafDirective } from "mdast-util-directive";
 import type { Root } from "mdast";
-import { visit } from "unist-util-visit";
+import type { LeafDirective } from "mdast-util-directive";
 import type { Plugin } from "unified";
+import { visit } from "unist-util-visit";
 import type { VFile } from "vfile";
-import { toTable } from "./table-utils";
-import { getCsvPath } from "./get-csv-path";
-import { parseRows } from "./parse-rows";
+import { getCsvPath } from "./get-csv-path.js";
+import { parseRows } from "./parse-rows.js";
+import { toTable } from "./table-utils.js";
 
 type RemarkCsvTablesOptions = {
     contentDirectory: string;

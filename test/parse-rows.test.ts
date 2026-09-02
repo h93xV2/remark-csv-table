@@ -1,4 +1,4 @@
-import { it, mock, expect } from "bun:test";
+import { expect, it, mock } from "bun:test";
 import { parseRows } from "../src/parse-rows";
 
 mock.module("node:fs", () => ({

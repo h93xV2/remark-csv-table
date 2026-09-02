@@ -1,4 +1,4 @@
-import type { TableCell, PhrasingContent, Table } from "mdast";
+import type { PhrasingContent, Table, TableCell } from "mdast";
 import { remark } from "remark";
 
 const toCell = (value: string): TableCell => {

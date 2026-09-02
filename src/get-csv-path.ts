@@ -1,6 +1,6 @@
 import path from "node:path";
-import type { VFile } from "vfile";
 import type { LeafDirective } from "mdast-util-directive";
+import type { VFile } from "vfile";
 
 const getCsvPath = (
     node: LeafDirective,

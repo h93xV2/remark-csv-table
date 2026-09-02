@@ -1,5 +1,5 @@
-import { parse } from "csv-parse/sync";
 import { readFileSync } from "node:fs";
+import { parse } from "csv-parse/sync";
 
 const parseRows = (csvPath: string) => {
     let rows: string[][];
@@ -22,7 +22,7 @@ const parseRows = (csvPath: string) => {
         );
     }
 
-    if (rows[0] && rows[0].some((header) => !header.trim())) {
+    if (rows[0]?.some((header) => !header.trim())) {
         throw new Error(`CSV ${csvPath} cannot contain an empty header.`);
     }
 

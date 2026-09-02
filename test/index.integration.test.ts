@@ -1,11 +1,11 @@
-import { unified } from "unified";
 import { describe, expect, test } from "bun:test";
-import remarkCsvTables from "../src";
+import remarkDirective from "remark-directive";
+import remarkGfm from "remark-gfm";
 import remarkParse from "remark-parse";
 import remarkStringify from "remark-stringify";
-import remarkDirective from "remark-directive";
 import { read } from "to-vfile";
-import remarkGfm from "remark-gfm";
+import { unified } from "unified";
+import remarkCsvTables from "../src";
 
 describe("remark-csv-tables integration tests", () => {
     test("parses markdown with no directives", async () => {

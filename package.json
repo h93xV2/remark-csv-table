@@ -6,9 +6,22 @@
         "type": "git"
     },
     "author": "h93xV2",
-    "module": "src/index.ts",
     "type": "module",
     "version": "0.1.0",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js"
+        }
+    },
+    "files": [
+        "dist"
+    ],
+    "engines": {
+        "node": ">=20"
+    },
     "release": {
         "branches": [
             "main"
@@ -36,16 +49,20 @@
         ]
     },
     "scripts": {
-        "build": "tsc -p tsconfig.json",
+        "build": "tsc -p tsconfig.build.json",
+        "prepack": "npm run build",
         "prepare": "husky",
         "typecheck": "tsc --noEmit",
-        "format": "prettier --write .",
-        "format:check": "prettier --check ."
+        "format": "biome format --write .",
+        "format:check": "biome format .",
+        "lint": "biome lint .",
+        "check": "biome check ."
     },
     "lint-staged": {
-        "*.{js,cjs,mjs,ts,tsx,json,yaml,yml,md}": "prettier --write"
+        "*.{js,cjs,mjs,ts,tsx,json,jsonc}": "biome check --write"
     },
     "devDependencies": {
+        "@biomejs/biome": "2.5.11",
         "@commitlint/cli": "21.2.2",
         "@commitlint/config-conventional": "21.2.2",
         "@semantic-release/commit-analyzer": "13.0.1",
@@ -57,7 +74,6 @@
         "husky": "9.1.7",
         "lint-staged": "17.4.1",
         "mdast-util-directive": "3.1.0",
-        "prettier": "3.9.6",
         "remark-directive": "4.0.0",
         "remark-gfm": "4.0.1",
         "remark-parse": "11.0.0",
