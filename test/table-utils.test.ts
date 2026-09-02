@@ -1,17 +1,42 @@
-import { expect, it, mock } from "bun:test";
+import { afterEach, expect, it, mock } from "bun:test";
 import { toCell, toTable } from "../src/table-utils";
+
+const mockParse = mock();
 
 mock.module("remark", () => ({
     remark: () => ({
-        parse: (_value: string) => ({
-            children: [{}],
-        }),
+        parse: mockParse,
     }),
 }));
 
-// TODO: Mock the output of remark().parse(value)
+afterEach(() => {
+    mock.restore();
+});
+
+it("should handle empty cells", () => {
+    mockParse.mockReturnValue({
+        children: [],
+    });
+
+    const cell = toCell("");
+    expect(cell).toEqual({
+        type: "tableCell",
+        children: [],
+    });
+});
+
 it("should create a cell from a string", () => {
+    mockParse.mockReturnValue({
+        children: [
+            {
+                type: "paragraph",
+                children: [{ type: "text", value: "Test cell" }],
+            },
+        ],
+    });
+
     const cell = toCell("Test cell");
+
     expect(cell).toEqual({
         type: "tableCell",
         children: [
@@ -23,7 +48,30 @@ it("should create a cell from a string", () => {
     });
 });
 
+it("should handle multiple paragraphs in a cell", () => {
+    mockParse.mockReturnValue({
+        children: [
+            {
+                type: "paragraph",
+                children: [{ type: "text", value: "Test cell" }],
+            },
+            {
+                type: "paragraph",
+                children: [{ type: "text", value: "With multiple paragraphs" }],
+            },
+        ],
+    });
+
+    expect(() => toCell("Test cell\n\nWith multiple paragraphs")).toThrow(
+        "CSV cells must contain plain text or single paragraph of inline Markdown",
+    );
+});
+
 it("should create a table from CSV rows", () => {
+    mockParse.mockImplementation((value: string) => ({
+        children: [{ type: "paragraph", children: [{ type: "text", value }] }],
+    }));
+
     const rows = [
         ["Header 1", "Header 2"],
         ["Row 1 Col 1", "Row 1 Col 2"],

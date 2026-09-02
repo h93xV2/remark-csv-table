@@ -2,17 +2,28 @@ import type { PhrasingContent, Table, TableCell } from "mdast";
 import { remark } from "remark";
 
 const toCell = (value: string): TableCell => {
-    const paragraph = remark().parse(value).children[0];
-    const children: PhrasingContent[] =
-        paragraph?.type === "paragraph"
-            ? paragraph.children
-            : value
-              ? [{ type: "text", value }]
-              : [];
+    const root = remark().parse(value);
+
+    if (root.children.length === 0) {
+        return {
+            type: "tableCell",
+            children: [],
+        };
+    }
+
+    const [content] = root.children;
+
+    if (root.children.length !== 1 || content?.type !== "paragraph") {
+        throw new Error(
+            "CSV cells must contain plain text or single paragraph of inline Markdown",
+        );
+    }
+
+    const children: PhrasingContent[] = content.children;
 
     return {
         type: "tableCell",
-        children: children,
+        children,
     };
 };
 

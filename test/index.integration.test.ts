@@ -7,33 +7,31 @@ import { read } from "to-vfile";
 import { unified } from "unified";
 import remarkCsvTables from "../src";
 
-describe("remark-csv-tables integration tests", () => {
-    test("parses markdown with no directives", async () => {
-        const input = "# Hello World";
-        const expected = "# Hello World\n";
+test("parses markdown with no directives", async () => {
+    const input = "# Hello World";
+    const expected = "# Hello World\n";
 
-        const result = await unified()
-            .use(remarkParse)
-            .use(remarkCsvTables)
-            .use(remarkStringify)
-            .process(input);
+    const result = await unified()
+        .use(remarkParse)
+        .use(remarkCsvTables)
+        .use(remarkStringify)
+        .process(input);
 
-        expect(result.toString()).toBe(expected);
-    });
+    expect(result.toString()).toBe(expected);
+});
 
-    test("parses markdown with CSV directive", async () => {
-        const file = await read("test/data/test.md");
-        const expected =
-            "# Hello World\n\n| name | age |\n| ---- | --- |\n| John | 25  |\n| Jane | 30  |\n";
+test("parses markdown with CSV directive", async () => {
+    const file = await read("test/data/test.md");
+    const expected =
+        "# Hello World\n\n| name | age |\n| ---- | --- |\n| John | 25  |\n| Jane | 30  |\n";
 
-        const result = await unified()
-            .use(remarkParse)
-            .use(remarkDirective)
-            .use(remarkGfm)
-            .use(remarkCsvTables)
-            .use(remarkStringify)
-            .process(file);
+    const result = await unified()
+        .use(remarkParse)
+        .use(remarkDirective)
+        .use(remarkGfm)
+        .use(remarkCsvTables)
+        .use(remarkStringify)
+        .process(file);
 
-        expect(result.toString()).toBe(expected);
-    });
+    expect(result.toString()).toBe(expected);
 });

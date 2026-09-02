@@ -1,4 +1,4 @@
-import { expect, it, mock } from "bun:test";
+import { afterEach, expect, it, mock } from "bun:test";
 import { parseRows } from "../src/parse-rows";
 
 mock.module("node:fs", () => ({
@@ -10,6 +10,11 @@ const parseMock = mock();
 mock.module("csv-parse/sync", () => ({
     parse: parseMock,
 }));
+
+afterEach((done) => {
+    mock.restore();
+    done();
+});
 
 it("should parse CSV rows correctly", () => {
     parseMock.mockReturnValue([

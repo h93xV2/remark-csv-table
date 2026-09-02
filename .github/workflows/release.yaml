@@ -40,7 +40,7 @@ jobs:
               run: bunx commitlint --last --verbose
 
             - name: Test
-              run: bun test --isolate
+              run: bun test
 
             - name: Typecheck
               run: bun run typecheck
