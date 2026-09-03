@@ -1,19 +1,16 @@
 import { afterEach, expect, it, mock } from "bun:test";
-import { parseRows } from "../src/parse-rows";
-
-mock.module("node:fs", () => ({
-    readFileSync: () => "header1,header2\nvalue1,value2",
-}));
+import { type ParseRowsDependencies, parseRows } from "../src/parse-rows";
 
 const parseMock = mock();
+const readFileMock = mock();
+const deps: ParseRowsDependencies = {
+    parseCsv: parseMock,
+    readFile: readFileMock,
+};
 
-mock.module("csv-parse/sync", () => ({
-    parse: parseMock,
-}));
-
-afterEach((done) => {
-    mock.restore();
-    done();
+afterEach(() => {
+    parseMock.mockReset();
+    readFileMock.mockReset();
 });
 
 it("should parse CSV rows correctly", () => {
@@ -22,7 +19,7 @@ it("should parse CSV rows correctly", () => {
         ["value1", "value2"],
     ]);
 
-    const rows = parseRows("foo.csv");
+    const rows = parseRows(deps, "foo.csv");
 
     expect(rows).toEqual([
         ["header1", "header2"],
@@ -33,7 +30,7 @@ it("should parse CSV rows correctly", () => {
 it("should throw an error if the CSV has less than two rows", () => {
     parseMock.mockReturnValue([["header1", "header2"]]);
 
-    expect(() => parseRows("foo.csv")).toThrow(
+    expect(() => parseRows(deps, "foo.csv")).toThrow(
         "CSV foo.csv must contain a header and at least one row.",
     );
 });
@@ -41,7 +38,7 @@ it("should throw an error if the CSV has less than two rows", () => {
 it("should throw an error if the header is empty", () => {
     parseMock.mockReturnValue([[""], ["value1", "value2"]]);
 
-    expect(() => parseRows("foo.csv")).toThrow(
+    expect(() => parseRows(deps, "foo.csv")).toThrow(
         "CSV foo.csv cannot contain an empty header.",
     );
 });
@@ -51,7 +48,7 @@ it("should throw an error if the CSV cannot be parsed", () => {
         throw new Error("Failed to parse CSV");
     });
 
-    expect(() => parseRows("foo.csv")).toThrow(
+    expect(() => parseRows(deps, "foo.csv")).toThrow(
         "Unable to parse CSV foo.csv: Failed to parse CSV",
     );
 });

@@ -1,8 +1,12 @@
 import type { PhrasingContent, Table, TableCell } from "mdast";
-import { remark } from "remark";
+import type { remark } from "remark";
 
-const toCell = (value: string): TableCell => {
-    const root = remark().parse(value);
+export type TableUtilsDependencies = {
+    remark: typeof remark;
+};
+
+const toCell = (deps: TableUtilsDependencies, value: string): TableCell => {
+    const root = deps.remark().parse(value);
 
     if (root.children.length === 0) {
         return {
@@ -27,7 +31,7 @@ const toCell = (value: string): TableCell => {
     };
 };
 
-const toTable = (rows: string[][]): Table => {
+const toTable = (deps: TableUtilsDependencies, rows: string[][]): Table => {
     const align = rows[0]?.map(() => null) || [];
 
     return {
@@ -35,7 +39,7 @@ const toTable = (rows: string[][]): Table => {
         align: align,
         children: rows.map((row) => ({
             type: "tableRow",
-            children: row.map(toCell),
+            children: row.map((value) => toCell(deps, value)),
         })),
     };
 };

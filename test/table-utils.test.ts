@@ -1,16 +1,21 @@
 import { afterEach, expect, it, mock } from "bun:test";
-import { toCell, toTable } from "../src/table-utils";
+import type { remark } from "remark";
+import {
+    type TableUtilsDependencies,
+    toCell,
+    toTable,
+} from "../src/table-utils";
 
 const mockParse = mock();
-
-mock.module("remark", () => ({
-    remark: () => ({
-        parse: mockParse,
-    }),
-}));
+const remarkMock = () => ({
+    parse: mockParse,
+});
+const deps: TableUtilsDependencies = {
+    remark: remarkMock as unknown as typeof remark,
+};
 
 afterEach(() => {
-    mock.restore();
+    mockParse.mockReset();
 });
 
 it("should handle empty cells", () => {
@@ -18,7 +23,7 @@ it("should handle empty cells", () => {
         children: [],
     });
 
-    const cell = toCell("");
+    const cell = toCell(deps, "");
     expect(cell).toEqual({
         type: "tableCell",
         children: [],
@@ -35,7 +40,7 @@ it("should create a cell from a string", () => {
         ],
     });
 
-    const cell = toCell("Test cell");
+    const cell = toCell(deps, "Test cell");
 
     expect(cell).toEqual({
         type: "tableCell",
@@ -62,7 +67,7 @@ it("should handle multiple paragraphs in a cell", () => {
         ],
     });
 
-    expect(() => toCell("Test cell\n\nWith multiple paragraphs")).toThrow(
+    expect(() => toCell(deps, "Test cell\n\nWith multiple paragraphs")).toThrow(
         "CSV cells must contain plain text or single paragraph of inline Markdown",
     );
 });
@@ -76,7 +81,7 @@ it("should create a table from CSV rows", () => {
         ["Header 1", "Header 2"],
         ["Row 1 Col 1", "Row 1 Col 2"],
     ];
-    const table = toTable(rows);
+    const table = toTable(deps, rows);
 
     expect(table).toEqual({
         type: "table",

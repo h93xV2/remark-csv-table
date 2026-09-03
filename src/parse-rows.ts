@@ -1,11 +1,16 @@
-import { readFileSync } from "node:fs";
-import { parse } from "csv-parse/sync";
+import type { readFileSync } from "node:fs";
+import type { parse } from "csv-parse/sync";
 
-const parseRows = (csvPath: string) => {
+export type ParseRowsDependencies = {
+    readFile: typeof readFileSync;
+    parseCsv: typeof parse;
+};
+
+const parseRows = (deps: ParseRowsDependencies, csvPath: string) => {
     let rows: string[][];
 
     try {
-        rows = parse(readFileSync(csvPath), {
+        rows = deps.parseCsv(deps.readFile(csvPath), {
             bom: true,
             relax_column_count: false,
             skip_empty_lines: true,

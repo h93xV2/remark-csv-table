@@ -1,6 +1,9 @@
+import { readFileSync } from "node:fs";
 import path from "node:path";
+import { parse } from "csv-parse/sync";
 import type { Root } from "mdast";
 import type { LeafDirective } from "mdast-util-directive";
+import { remark } from "remark";
 import type { Plugin } from "unified";
 import { visit } from "unist-util-visit";
 import type { VFile } from "vfile";
@@ -34,9 +37,12 @@ const remarkCsvTables: Plugin<[RemarkCsvTablesOptions?], Root> = (options) => {
             const csvPath = getCsvPath(node, file, contentDirectory);
             file.info(`[remark-csv-tables] Reading ${csvPath}.`);
 
-            const rows = parseRows(csvPath);
+            const rows = parseRows(
+                { readFile: readFileSync, parseCsv: parse },
+                csvPath,
+            );
 
-            parent.children[index] = toTable(rows);
+            parent.children[index] = toTable({ remark }, rows);
 
             file.info(
                 `[remark-csv-tables] Replaced directive with a ${rows.length - 1}-row table.`,
