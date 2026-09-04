@@ -6,6 +6,10 @@ export type TableUtilsDependencies = {
 };
 
 const toCell = (deps: TableUtilsDependencies, value: string): TableCell => {
+    if (value.split("\n").length > 1 || value.split("\r").length > 1) {
+        throw new Error("CSV cells cannot contain line breaks.");
+    }
+
     const root = deps.remark().parse(value);
 
     if (root.children.length === 0) {
@@ -17,10 +21,22 @@ const toCell = (deps: TableUtilsDependencies, value: string): TableCell => {
 
     const [content] = root.children;
 
-    if (root.children.length !== 1 || content?.type !== "paragraph") {
+    if (root.children.length !== 1) {
         throw new Error(
             "CSV cells must contain plain text or single paragraph of inline Markdown",
         );
+    }
+
+    if (content?.type !== "paragraph") {
+        return {
+            type: "tableCell",
+            children: [
+                {
+                    type: "text",
+                    value,
+                },
+            ],
+        };
     }
 
     const children: PhrasingContent[] = content.children;

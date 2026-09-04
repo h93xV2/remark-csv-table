@@ -7,6 +7,20 @@ import { read } from "to-vfile";
 import { unified } from "unified";
 import remarkCsvTables from "../src";
 
+const runRemarkCsvTables = async (filePath: string) => {
+    const file = await read(filePath);
+    const processor = unified()
+        .use(remarkParse)
+        .use(remarkDirective)
+        .use(remarkGfm)
+        .use(remarkCsvTables);
+    const tree = processor.parse(file);
+
+    await processor.run(tree, file);
+
+    return tree;
+};
+
 test("parses markdown with no directives", async () => {
     const input = "# Hello World";
     const expected = "# Hello World\n";
@@ -34,4 +48,47 @@ test("parses markdown with CSV directive", async () => {
         .process(file);
 
     expect(result.toString()).toBe(expected);
+});
+
+test("preserves inline Markdown and block-looking single-line cell data", async () => {
+    const tree = await runRemarkCsvTables("test/data/inline-cells.md");
+    const table = tree.children.find((node) => node.type === "table");
+
+    expect(table).toMatchObject({
+        type: "table",
+        children: [
+            {
+                children: [
+                    { children: [{ type: "text", value: "label" }] },
+                    { children: [{ type: "text", value: "link" }] },
+                    { children: [{ type: "text", value: "heading" }] },
+                    { children: [{ type: "text", value: "list" }] },
+                    { children: [{ type: "text", value: "quote" }] },
+                ],
+            },
+            {
+                children: [
+                    { children: [{ type: "text", value: "Example" }] },
+                    {
+                        children: [
+                            {
+                                type: "link",
+                                url: "https://example.com",
+                                children: [{ type: "text", value: "test" }],
+                            },
+                        ],
+                    },
+                    { children: [{ type: "text", value: "# Hello" }] },
+                    { children: [{ type: "text", value: "- Item" }] },
+                    { children: [{ type: "text", value: "> Note" }] },
+                ],
+            },
+        ],
+    });
+});
+
+test("rejects CSV cells containing line breaks", () => {
+    expect(runRemarkCsvTables("test/data/multiline-cell.md")).rejects.toThrow(
+        "CSV cells cannot contain line breaks.",
+    );
 });

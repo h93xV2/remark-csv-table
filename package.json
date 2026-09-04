@@ -1,10 +1,24 @@
 {
     "name": "remark-csv-table",
+    "description": "A Remark plugin that converts local CSV files referenced by Markdown directives into GFM tables.",
     "license": "MIT",
     "repository": {
         "url": "https://github.com/h93xV2/remark-csv-table",
         "type": "git"
     },
+    "homepage": "https://github.com/h93xV2/remark-csv-table#readme",
+    "bugs": {
+        "url": "https://github.com/h93xV2/remark-csv-table/issues"
+    },
+    "keywords": [
+        "remark",
+        "remark-plugin",
+        "unified",
+        "markdown",
+        "csv",
+        "table",
+        "gfm"
+    ],
     "author": "h93xV2",
     "type": "module",
     "version": "0.1.3",

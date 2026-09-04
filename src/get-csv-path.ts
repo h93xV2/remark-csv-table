@@ -23,19 +23,21 @@ const getCsvPath = (
         );
     }
 
-    const postDirectory = path.dirname(file.path);
-    const csvPath = path.resolve(postDirectory, source);
-    const postRelativePath = path.relative(postDirectory, csvPath);
+    const fileDirectory = path.dirname(file.path);
+    const csvPath = path.resolve(fileDirectory, source);
+    const fileRelativePath = path.relative(fileDirectory, csvPath);
     const contentRelativePath = path.relative(contentDirectory, csvPath);
+    const isOutsideDirectory = (relativePath: string) =>
+        relativePath === ".." ||
+        relativePath.startsWith(`..${path.sep}`) ||
+        path.isAbsolute(relativePath);
 
     if (
-        postRelativePath.startsWith("..") ||
-        path.isAbsolute(postRelativePath) ||
-        contentRelativePath.startsWith("..") ||
-        path.isAbsolute(contentRelativePath)
+        isOutsideDirectory(fileRelativePath) ||
+        isOutsideDirectory(contentRelativePath)
     ) {
         throw new Error(
-            `CSV source must be inside the current post directory: ${source}`,
+            `CSV source must be inside the current file directory: ${source}`,
         );
     }
 

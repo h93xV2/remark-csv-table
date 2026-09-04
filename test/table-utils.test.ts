@@ -53,23 +53,28 @@ it("should create a cell from a string", () => {
     });
 });
 
-it("should handle multiple paragraphs in a cell", () => {
+it("should create a literal text cell from block-looking data", () => {
     mockParse.mockReturnValue({
         children: [
             {
-                type: "paragraph",
-                children: [{ type: "text", value: "Test cell" }],
-            },
-            {
-                type: "paragraph",
-                children: [{ type: "text", value: "With multiple paragraphs" }],
+                type: "heading",
+                depth: 1,
+                children: [{ type: "text", value: "Hello" }],
             },
         ],
     });
 
-    expect(() => toCell(deps, "Test cell\n\nWith multiple paragraphs")).toThrow(
-        "CSV cells must contain plain text or single paragraph of inline Markdown",
+    expect(toCell(deps, "# Hello")).toEqual({
+        type: "tableCell",
+        children: [{ type: "text", value: "# Hello" }],
+    });
+});
+
+it("should reject cells containing line breaks before parsing Markdown", () => {
+    expect(() => toCell(deps, "First line\nSecond line")).toThrow(
+        "CSV cells cannot contain line breaks.",
     );
+    expect(mockParse).not.toHaveBeenCalled();
 });
 
 it("should create a table from CSV rows", () => {
