@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it, spyOn } from "bun:test";
+import { execFileSync } from "node:child_process";
 import {
     mkdirSync,
     mkdtempSync,
@@ -232,5 +233,21 @@ describe("getCsvPath", () => {
         } finally {
             consoleError.mockRestore();
         }
+    });
+
+    it("rejects named pipes before attempting to read them", () => {
+        const { contentDirectory, markdownPath, postDirectory } =
+            createFixture();
+        const fifoPath = path.join(postDirectory, "table.csv");
+
+        execFileSync("mkfifo", [fifoPath]);
+
+        expect(() =>
+            getCsvPath(
+                csvDirective("./table.csv"),
+                new VFile({ path: markdownPath }),
+                contentDirectory,
+            ),
+        ).toThrow("CSV source must be a regular file: ./table.csv");
     });
 });

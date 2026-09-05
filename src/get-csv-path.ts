@@ -53,6 +53,10 @@ const getCsvPath = (
     const realFileDirectory = getRealPath(file, fileDirectory);
     const realContentDirectory = getRealPath(file, contentDirectory);
 
+    if (!fs.statSync(realCsvPath).isFile()) {
+        throw new Error(`CSV source must be a regular file: ${source}`);
+    }
+
     if (
         isOutsideDirectory(fileRelativePath) ||
         isOutsideDirectory(contentRelativePath) ||
