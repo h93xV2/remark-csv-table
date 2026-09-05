@@ -6,7 +6,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const projectDirectory = fileURLToPath(new URL("../../", import.meta.url));
-const npm = process.platform === "win32" ? "npm.cmd" : "npm";
+const bun = process.execPath;
 
 const run = (command: string, args: string[], cwd: string) => {
     const result = spawnSync(command, args, { cwd, encoding: "utf8" });
@@ -30,19 +30,22 @@ test("imports and runs the packed package with Node", () => {
         mkdirSync(packDirectory);
         mkdirSync(consumerDirectory);
 
-        const packResult = run(
-            npm,
+        const packOutput = run(
+            bun,
             [
+                "pm",
                 "pack",
                 "--ignore-scripts",
-                "--json",
-                "--pack-destination",
+                "--destination",
                 packDirectory,
+                "--quiet",
             ],
             projectDirectory,
         );
-        const [{ filename }] = JSON.parse(packResult) as [{ filename: string }];
-        const tarball = path.join(packDirectory, filename);
+        const tarballName = packOutput.trim();
+        const tarball = path.isAbsolute(tarballName)
+            ? tarballName
+            : path.join(packDirectory, tarballName);
 
         writeFileSync(
             path.join(consumerDirectory, "package.json"),
@@ -54,11 +57,11 @@ test("imports and runs the packed package with Node", () => {
         );
 
         run(
-            npm,
+            bun,
             [
-                "install",
+                "add",
                 "--ignore-scripts",
-                "--no-package-lock",
+                "--exact",
                 tarball,
                 "remark-directive@4.0.0",
                 "remark-gfm@4.0.1",

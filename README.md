@@ -53,3 +53,7 @@ CSV files must be inside the Markdown file's directory and contentDirectory.
 CSV files must have a header and at least one data row. Headers cannot be empty.
 
 Cells support single-line inline Markdown. Multiline cells are rejected.
+
+## Development
+
+After cloning, run `bun install && bun run setup` to install Git hooks.

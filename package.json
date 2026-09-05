@@ -65,7 +65,7 @@
     "scripts": {
         "build": "tsc -p tsconfig.build.json",
         "prepack": "npm run build",
-        "prepare": "husky",
+        "setup": "husky",
         "test": "bun run test:unit && bun run test:integration",
         "test:integration": "bun test test/integration",
         "test:package": "bun run build && bun test test/package",
