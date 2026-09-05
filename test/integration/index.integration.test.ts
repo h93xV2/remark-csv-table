@@ -5,7 +5,7 @@ import remarkParse from "remark-parse";
 import remarkStringify from "remark-stringify";
 import { read } from "to-vfile";
 import { unified } from "unified";
-import remarkCsvTables from "../src";
+import remarkCsvTables from "../../src";
 
 const runRemarkCsvTables = async (filePath: string) => {
     const file = await read(filePath);

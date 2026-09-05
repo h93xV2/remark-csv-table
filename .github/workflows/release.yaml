@@ -40,13 +40,16 @@ jobs:
               run: bunx commitlint --last --verbose
 
             - name: Test
-              run: bun test
+              run: bun run test
 
             - name: Typecheck
               run: bun run typecheck
 
             - name: Build package
               run: bun run build
+
+            - name: Test packaged artifact
+              run: bun test test/package
 
             - name: Inspect npm package
               run: npm pack --dry-run --ignore-scripts

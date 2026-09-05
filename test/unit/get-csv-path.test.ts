@@ -11,9 +11,10 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import type { LeafDirective } from "mdast-util-directive";
 import { VFile } from "vfile";
-import { getCsvPath } from "../src/get-csv-path";
+import { getCsvPath } from "../../src/get-csv-path";
 
 const temporaryDirectories: string[] = [];
+const fifoTest = process.platform === "win32" ? it.skip : it;
 
 const createFixture = () => {
     const directory = mkdtempSync(path.join(tmpdir(), "remark-csv-table-"));
@@ -235,7 +236,7 @@ describe("getCsvPath", () => {
         }
     });
 
-    it("rejects named pipes before attempting to read them", () => {
+    fifoTest("rejects named pipes before attempting to read them", () => {
         const { contentDirectory, markdownPath, postDirectory } =
             createFixture();
         const fifoPath = path.join(postDirectory, "table.csv");

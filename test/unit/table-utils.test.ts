@@ -4,7 +4,7 @@ import {
     type TableUtilsDependencies,
     toCell,
     toTable,
-} from "../src/table-utils";
+} from "../../src/table-utils";
 
 const mockParse = mock();
 const remarkMock = () => ({

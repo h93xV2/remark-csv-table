@@ -1,5 +1,5 @@
 import { afterEach, expect, it, mock } from "bun:test";
-import { type ParseRowsDependencies, parseRows } from "../src/parse-rows";
+import { type ParseRowsDependencies, parseRows } from "../../src/parse-rows";
 
 const parseMock = mock();
 const readFileMock = mock();
