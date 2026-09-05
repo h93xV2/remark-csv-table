@@ -4,14 +4,18 @@ A Remark plugin that turns local CSV files referenced with Markdown directives i
 
 ## Requirements
 
-- Node >= 20
+- Node >= 24
 - ESM-only import
 - A Remark pipeline using remark-directive and remark-gfm
 
 ## Installation
 
 ```shell
-bun add remark-csv-table remark-directive remark-gfm
+npm install remark-csv-table remark-directive remark-gfm unified remark-parse remark-stringify
+```
+
+```shell
+bun add remark-csv-table remark-directive remark-gfm unified remark-parse remark-stringify
 ```
 
 ## Plugin Usage
@@ -43,5 +47,9 @@ const result = await unified()
 ```
 
 CSV files must be inside the Markdown file's directory and contentDirectory.
+
+`contentDirectory` defaults to `process.cwd()`.
+
+CSV files must have a header and at least one data row. Headers cannot be empty.
 
 Cells support single-line inline Markdown. Multiline cells are rejected.
