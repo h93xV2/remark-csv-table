@@ -3,7 +3,7 @@
     "description": "A Remark plugin that converts local CSV files referenced by Markdown directives into GFM tables.",
     "license": "MIT",
     "repository": {
-        "url": "https://github.com/h93xV2/remark-csv-table",
+        "url": "git+https://github.com/h93xV2/remark-csv-table.git",
         "type": "git"
     },
     "homepage": "https://github.com/h93xV2/remark-csv-table#readme",
@@ -43,7 +43,18 @@
         "plugins": [
             "@semantic-release/commit-analyzer",
             "@semantic-release/release-notes-generator",
-            "@semantic-release/npm",
+            [
+                "@semantic-release/npm",
+                {
+                    "npmPublish": false
+                }
+            ],
+            [
+                "@semantic-release/exec",
+                {
+                    "publishCmd": "npm stage publish"
+                }
+            ],
             [
                 "@semantic-release/git",
                 {
@@ -79,6 +90,7 @@
         "@commitlint/cli": "21.2.2",
         "@commitlint/config-conventional": "21.2.2",
         "@semantic-release/commit-analyzer": "13.0.1",
+        "@semantic-release/exec": "7.1.0",
         "@semantic-release/git": "11.0.1",
         "@semantic-release/github": "12.0.9",
         "@semantic-release/npm": "13.1.5",
