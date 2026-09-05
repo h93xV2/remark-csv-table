@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it } from "bun:test";
+import { afterEach, describe, expect, it, spyOn } from "bun:test";
 import {
     mkdirSync,
     mkdtempSync,
@@ -169,5 +169,68 @@ describe("getCsvPath", () => {
         ).toThrow(
             "CSV source must be inside the current file directory: ./table.csv",
         );
+    });
+
+    it("rejects CSV files beneath symlinked directories", () => {
+        const { contentDirectory, directory, markdownPath, postDirectory } =
+            createFixture();
+        const externalDirectory = path.join(directory, "external");
+
+        mkdirSync(externalDirectory);
+        writeFileSync(
+            path.join(externalDirectory, "table.csv"),
+            "header\nvalue\n",
+        );
+        symlinkSync(externalDirectory, path.join(postDirectory, "data"), "dir");
+
+        expect(() =>
+            getCsvPath(
+                csvDirective("./data/table.csv"),
+                new VFile({ path: markdownPath }),
+                contentDirectory,
+            ),
+        ).toThrow(
+            "CSV source must be inside the current file directory: ./data/table.csv",
+        );
+    });
+
+    it("rejects broken CSV symlinks", () => {
+        const { contentDirectory, directory, markdownPath, postDirectory } =
+            createFixture();
+
+        symlinkSync(
+            path.join(directory, "missing.csv"),
+            path.join(postDirectory, "table.csv"),
+        );
+
+        expect(() =>
+            getCsvPath(
+                csvDirective("./table.csv"),
+                new VFile({ path: markdownPath }),
+                contentDirectory,
+            ),
+        ).toThrow(
+            `CSV file not found: ${path.join(postDirectory, "table.csv")}`,
+        );
+    });
+
+    it("rejects missing CSV files without writing to stderr", () => {
+        const { contentDirectory, markdownPath } = createFixture();
+        const consoleError = spyOn(console, "error").mockImplementation(
+            () => {},
+        );
+
+        try {
+            expect(() =>
+                getCsvPath(
+                    csvDirective("./missing.csv"),
+                    new VFile({ path: markdownPath }),
+                    contentDirectory,
+                ),
+            ).toThrow();
+            expect(consoleError).not.toHaveBeenCalled();
+        } finally {
+            consoleError.mockRestore();
+        }
     });
 });

@@ -11,7 +11,7 @@ import { getCsvPath } from "./get-csv-path.js";
 import { parseRows } from "./parse-rows.js";
 import { toTable } from "./table-utils.js";
 
-type RemarkCsvTablesOptions = {
+export type RemarkCsvTablesOptions = {
     contentDirectory: string;
 };
 
@@ -27,7 +27,8 @@ const remarkCsvTables: Plugin<[RemarkCsvTablesOptions?], Root> = (options) => {
             }
 
             file.info(
-                `[remark-csv-tables] Found CSV directive in ${file.path ?? "unknown Markdown file"}.`,
+                `Found CSV directive in ${file.path ?? "unknown Markdown file"}.`,
+                { source: "remark-csv-table" },
             );
 
             if (!parent || index === undefined) {
@@ -35,7 +36,7 @@ const remarkCsvTables: Plugin<[RemarkCsvTablesOptions?], Root> = (options) => {
             }
 
             const csvPath = getCsvPath(node, file, contentDirectory);
-            file.info(`[remark-csv-tables] Reading ${csvPath}.`);
+            file.info(`Reading ${csvPath}.`, { source: "remark-csv-table" });
 
             const rows = parseRows(
                 { readFile: readFileSync, parseCsv: parse },
@@ -45,7 +46,8 @@ const remarkCsvTables: Plugin<[RemarkCsvTablesOptions?], Root> = (options) => {
             parent.children[index] = toTable({ remark }, rows);
 
             file.info(
-                `[remark-csv-tables] Replaced directive with a ${rows.length - 1}-row table.`,
+                `Replaced directive with a ${rows.length - 1}-row table.`,
+                { source: "remark-csv-table" },
             );
         });
     };
