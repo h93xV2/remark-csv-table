@@ -12,7 +12,7 @@ import { parseRows } from "./parse-rows.js";
 import { toTable } from "./table-utils.js";
 
 export type RemarkCsvTablesOptions = {
-    contentDirectory: string;
+    contentDirectory?: string;
 };
 
 const remarkCsvTables: Plugin<[RemarkCsvTablesOptions?], Root> = (options) => {
