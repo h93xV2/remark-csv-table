@@ -87,7 +87,7 @@
     },
     "devDependencies": {
         "@biomejs/biome": "2.5.15",
-        "@commitlint/cli": "21.2.2",
+        "@commitlint/cli": "21.2.4",
         "@commitlint/config-conventional": "21.2.4",
         "@semantic-release/commit-analyzer": "13.0.1",
         "@semantic-release/exec": "7.1.0",
