@@ -21,7 +21,7 @@
     ],
     "author": "h93xV2",
     "type": "module",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
     "exports": {
@@ -97,7 +97,7 @@
         "@semantic-release/release-notes-generator": "14.1.1",
         "@types/bun": "1.4.0",
         "husky": "9.1.7",
-        "lint-staged": "17.4.1",
+        "lint-staged": "17.6.0",
         "mdast-util-directive": "3.1.1",
         "remark-directive": "4.0.0",
         "remark-gfm": "4.0.1",
