@@ -36,7 +36,7 @@ const result = await unified()
     .use(remarkStringify)
     .process({
         path: "content/posts/example.md",
-        value: "::csv{src=\"./table.csv\"}",
+        value: '::csv{src="./table.csv"}',
     });
 ```
 
