@@ -86,7 +86,7 @@
         "*.{js,cjs,mjs,ts,tsx,json,jsonc}": "biome check --write"
     },
     "devDependencies": {
-        "@biomejs/biome": "2.6.2",
+        "@biomejs/biome": "2.6.3",
         "@commitlint/cli": "21.2.4",
         "@commitlint/config-conventional": "21.2.4",
         "@semantic-release/commit-analyzer": "13.0.1",
