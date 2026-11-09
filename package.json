@@ -98,7 +98,7 @@
         "@types/bun": "1.4.4",
         "husky": "9.1.7",
         "lint-staged": "17.6.0",
-        "mdast-util-directive": "3.1.1",
+        "mdast-util-directive": "3.2.0",
         "remark-directive": "4.0.0",
         "remark-gfm": "4.0.1",
         "remark-parse": "11.0.0",
