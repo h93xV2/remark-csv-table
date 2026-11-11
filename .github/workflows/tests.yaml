@@ -1,6 +1,9 @@
 name: Tests
 
 on:
+    push:
+        branches:
+            - main
     pull_request:
         branches:
             - main
@@ -24,4 +27,9 @@ jobs:
               run: bun ci
 
             - name: Run tests
-              run: bun run test
+              run: bun test --coverage --coverage-reporter=text --coverage-reporter=lcov test/unit test/integration
+
+            - name: Upload coverage
+              uses: codecov/codecov-action@v5
+              with:
+                  files: ./coverage/lcov.info

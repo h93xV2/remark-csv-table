@@ -1,5 +1,8 @@
 # remark-csv-table
 
+[![npm version](https://img.shields.io/npm/v/remark-csv-table)](https://www.npmjs.com/package/remark-csv-table)
+[![Test coverage](https://codecov.io/gh/h93xV2/remark-csv-table/branch/main/graph/badge.svg)](https://codecov.io/gh/h93xV2/remark-csv-table)
+
 A Remark plugin that turns local CSV files referenced with Markdown directives into GFM tables at build time.
 
 ## Requirements
