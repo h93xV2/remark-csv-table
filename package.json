@@ -103,7 +103,7 @@
         "remark-gfm": "4.0.1",
         "remark-parse": "11.0.0",
         "remark-stringify": "11.0.0",
-        "semantic-release": "25.0.9",
+        "semantic-release": "26.0.1",
         "to-vfile": "8.0.0",
         "typescript": "^7",
         "vfile": "6.0.3"
